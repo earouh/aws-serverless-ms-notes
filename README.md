@@ -1,3 +1,9 @@
+---
+title: My First Page
+description: Kubernetes learning notes
+layout: default
+---
+
 ## Welcome to GitHub Pages
 
 You can use the [editor on GitHub](https://github.com/earouh/personal-site/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
