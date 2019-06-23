@@ -1,6 +1,6 @@
 ---
-title: My First Page
-description: Kubernetes learning notes
+title: Home Page
+description: my dear
 layout: default
 ---
 
