@@ -1,6 +1,6 @@
 ---
 title: Tuning Performance API Gateway with EKS on AWS
-description: 
+description: Kubernetes, AWS EKS, Nginx Ingress Controller
 layout: default
 ---
 
