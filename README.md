@@ -1,5 +1,3 @@
-# earouhuang-notes
-personal website for my learning notes.
+# Keep On Coding
 
-## Info Page
-index.md 
+Earou Huang's info page and learning notes.
