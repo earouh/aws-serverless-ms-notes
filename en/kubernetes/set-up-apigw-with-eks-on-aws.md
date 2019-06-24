@@ -1,6 +1,6 @@
 ---
 title: Tuning Performance API Gateway with EKS on AWS
-description: "Tags: Kubernetes, AWS EKS, Nginx Ingress Controller"
+description: "June 22, 2019"
 layout: default
 ---
 
