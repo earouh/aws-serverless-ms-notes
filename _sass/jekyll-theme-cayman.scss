@@ -406,9 +406,14 @@ a {
   --baseline-multiplier: 0.22!important;
 }
 
+.owner {
+  font-weight: 600!important;
+  margin: 2px 0 8px 0 !important;
+}
+
 .owner-profile h3 {
   font-weight: 600!important;
-  margin-bottom: 10px!important;
+  margin: 2px 0 8px 0 !important;
 }
 
 .owner-profile a {
@@ -431,9 +436,12 @@ a {
   fill: rgba(0,0,0,.76)!important;
   margin: 0;
   padding-left: 1px;
+  max-width: 350px;
 }
 
 .site-footer-credits {
   color: $blockquote-text-color;
+  font-size: 10px;
+  padding-left: 1px;
 }
 
