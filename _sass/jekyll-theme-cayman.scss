@@ -374,6 +374,29 @@ a {
   font-weight: bold;
 }
 
+.owner-avatar {
+  display: table-cell!important;
+}
+
+.avatar-image {
+  width: 60px;
+  height: 60px;
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-border-radius: 100%;
+  border-radius: 100%;
+  border: 0;
+}
+
+.owner-profile {
+  display: table-cell!important;
+  word-break: break-word;
+  word-wrap: break-word;
+  padding-left: 15px!important;
+  vertical-align: middle!important;
+}
+
 .site-footer-credits {
   color: $blockquote-text-color;
 }
+
