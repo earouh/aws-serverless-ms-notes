@@ -1,6 +1,6 @@
 ---
-title: Tuning Performance API Gateway with EKS on AWS
-description: "June 22, 2019"
+title: Integrating EKS with API Gateway and Performance Tuning
+description: "June 30, 2019"
 layout: default
 ---
 
