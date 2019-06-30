@@ -4,6 +4,8 @@ description: "June 30, 2019"
 layout: default
 ---
 
+![cover](Integrating-EKS-with-API-Gateway-and-Performance-Tuning/cover.png)
+
 ## Welcome to GitHub Pages
 
 You can use the [editor on GitHub](https://github.com/earouh/personal-site/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
