@@ -1,45 +1,29 @@
 ---
 title: Integrating EKS with API Gateway and Performance Tuning
-description: "June 30, 2019"
+description: "July 7, 2019"
 layout: default
 ---
 
 ![cover](Integrating-EKS-with-API-Gateway-and-Performance-Tuning/cover.png)
 
-## Welcome to GitHub Pages
+There might be some reasons you want to integrating AWS API Gateway with EKS:
+1. Existing Applications which running on EC2 or Lambda exposing APIs via API Gateway, and now you want to put them into Kubernetes.
+2. You want to leverage the features of API Gateway to manage your API users instead of exposing your kubernetes services by ingress directly.
 
-You can use the [editor on GitHub](https://github.com/earouh/personal-site/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+### Architecture
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Thanks to [this Tweet](https://twitter.com/pahudnet/status/1030628314044452865) by [Pahud Hsieh](https://twitter.com/pahudnet). I use almost the same architecture to integrate EKS with API Gateway and it works well. To better understand how and why I set it up, I will address some details of performance tuning in this architecture.
 
-### Markdown
+![architect of apigw with eks](Integrating-EKS-with-API-Gateway-and-Performance-Tuning/arch-apigw-eks.png)
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+Focal Points:
+- Place NLB and EKS worker node instances in the private subnets. 
+- Two worker node groups, one for nginx ingress controller only.
+- Setup Linux Kernel parameters for high number of concurrent connections.
+- Setup NGINX ingress controller by Helm.
 
-```markdown
-Syntax highlighted code block
+### Everything in the Private Subnets
 
-# Header 1
-## Header 2
-### Header 3
+Except API Gateway and Cloud Front which are not managed by you.
 
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/earouh/personal-site/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+### Two Worker Node Groups
