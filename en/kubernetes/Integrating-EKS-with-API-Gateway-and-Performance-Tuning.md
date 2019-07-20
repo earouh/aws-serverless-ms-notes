@@ -28,4 +28,7 @@ Except `API Gateway` and `Cloud Front` which are not managed by you.
 
 After you create an EKS cluster and setup worker nodes by [this guide](https://docs.aws.amazon.com/en_us/eks/latest/userguide/getting-started.html). You might find that your worker node instances are launched with public IPs. We will fix it later by customizing launchconfig. Also, check the default `Security Group` on the worker nodes will not allow network traffic from outside of its cluster. If you want to setup a NLB by yourself(not from [Cloud Controller Manager](https://kubernetes.io/docs/tasks/administer-cluster/running-cloud-controller/)), create a `Security Group` and setup `Inbound` rules for the subnets of NLB is required.  
 
-## Two Worker Node Groups
+## Setup Two Worker Node Groups
+
+Copy the launchconfig which cloudformation stack created for you.
+
