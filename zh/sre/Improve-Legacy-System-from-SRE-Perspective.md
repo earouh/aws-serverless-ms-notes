@@ -94,3 +94,7 @@ layout: default_zh
 由於咖啡菜單更新這個操作是即時的，一筆一筆進行的，我們可以把它歸類在 __流處理__。而咖啡菜單同步至 ElasticSearch 的數據流，每次處理的是 1 分鐘前到現在的更新資料，具有明確的數據範圍，我們把它歸類在 __批處理__。
 
 ### 3. 定義服務水平指標
+
+在開始定義服務水平指標（SLI）之前，我們先將 __咖啡搜尋服務__ 的微服務邊界劃分清楚。以下綠色區塊的部分便是 __咖啡搜尋服務__ 的守備範圍。有了明確的邊界，就可以列舉出邊界內的系統操作，並針對這些操作定義能反應使用者感受的指標，也就是 SLI。
+
+![boundary of search service](Improve-Legacy-System-from-SRE-Perspective/boundary-search-service.png)
