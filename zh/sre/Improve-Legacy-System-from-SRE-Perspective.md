@@ -11,15 +11,16 @@ layout: default_zh
 ## 大綱
 
 * [學習案例介紹](#學習案例介紹)
-    - [案例：轉轉咖啡屋](#案例：轉轉咖啡屋)
+    - [案例：轉轉咖啡屋](#案例轉轉咖啡屋)
     - [從單體到微服務](#從單體到微服務)
-    - [新的挑戰：更大的規模](#新的挑戰：更大的規模)
-* [系統評估](#系統評估)
+    - [新的挑戰：更大的規模](#新的挑戰更大的規模)
+* [1. 系統評估](#1.系統評估)
+    - 畫出數據流(#畫出數據流)
     - 標示出現有系統的數據流，工作流
     - 標示批處理，流處理
     - 標示 SLI Menu，Request / Response or Data Processing or Data Store
 * 系統改善設計
-
+    - 選擇合適的數據工作劉模式
 ## 學習案例介紹
 
 [從零開始學架構](https://www.tenlong.com.tw/products/9787121347917) 中提到的架構設計三原則：合適、簡單、演化。你不需要在一開始就設計一個技術領先於業界的系統，正所謂『將軍難打無兵之仗』，一開始就投入大量的人力與時間在開發一個高可用、高乘載的系統卻沒有半個使用者，是一點意義也沒有的。所以，設計不良的舊有系統（Legacy System）存在於成功的企業中是常見、正常的狀況。畢竟往往正是因為有了這些符合成本且滿足初期使用者需求的舊有系統，才成就了所謂的成功企業。
@@ -47,6 +48,15 @@ layout: default_zh
 
 對於轉轉咖啡屋的 SRE 團隊來說，咖啡搜尋服務這個既有系統，該如何去分析並解決這個問題呢？
 
-## 系統評估
+## 1. 系統評估
 
-好的，接下來終於可以進入我們今天的主題了，
+好的，接下來終於可以進入我們今天的主題了。第一步是要對系統進行評估，評估的方法採用 SRE [服務水平指標](https://www.coursera.org/learn/site-reliability-engineering-slos/home/week/2)（Service Level Indicators, SLIs）的理論，藉由找出關鍵 SLIs 指標，來數據化使用者對於系統的滿意程度。根據 [The properties of good SLI metrics
+](https://www.coursera.org/learn/site-reliability-engineering-slos/lecture/pgyZk/the-properties-of-good-sli-metrics) 裡面提到，一個好的 SLI 指標必須真實且直接反應出使用者感受。意即我們可以從一個數值區間為 0%~100% 的 SLI 指標中得知，目前系統某個操作的性能與狀態，是否造成使用者不好的體驗，影響程度與範圍多大。甚至我們可以從數字中換算出客服處理時間，[服務水平指標](https://www.coursera.org/learn/site-reliability-engineering-slos/home/week/2) 越差，代表公司必須付出更多的客服成本，且降低使用者對產品品質的信心。
+
+有了這些數據，我們就可以在改善項目成本與不進行改善所付出的代價之間進行取捨。
+
+通常一個服務根據功能項目多寡和性質，可以定義出多種不同的 SLIs 指標。[Google SRE](https://www.coursera.org/learn/site-reliability-engineering-slos/) 將 SLIs 種類分成三大類：1. 請求/回應 2. 數據處理 3. 資料存儲。
+
+找出可供改善系統參考的 SLIs 並不容易，在這邊分享一個我自己的做法，供大家參考。
+
+### 畫出數據流
