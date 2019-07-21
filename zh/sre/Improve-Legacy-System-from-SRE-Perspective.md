@@ -93,11 +93,11 @@ layout: default_zh
 
 ![boundary of search service](Improve-Legacy-System-from-SRE-Perspective/boundary-search-service.png)
 
-![operations of search service](Improve-Legacy-System-from-SRE-Perspective/operations-search-service.png)
-
 為了節省篇幅，這邊簡單列出兩個 __咖啡搜尋服務__ 的基本操作情境：
 1. 查詢咖啡商品
 2. 更新咖啡商品數據
+
+![operations of search service](Improve-Legacy-System-from-SRE-Perspective/operations-search-service.png)
 
 接著我們要挑選適當的 SLI 分別放到這兩個操作當中。幸好，我們已經有現成的工具可以用了，[The SLI Menu](https://www.coursera.org/learn/site-reliability-engineering-slos/lecture/CST0V/the-sli-menu)。Thanks, Google.
 
@@ -116,3 +116,4 @@ layout: default_zh
     - 吞吐量指標（Throughput）
 3. 資料存儲（Storage）
     - 持久性指標（Durability）
+
