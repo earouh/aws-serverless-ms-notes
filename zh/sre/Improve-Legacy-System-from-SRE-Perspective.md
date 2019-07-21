@@ -60,13 +60,7 @@ layout: default_zh
 
 有了這些數據，我們就可以在改善項目成本與不進行改善所付出的代價之間進行取捨。
 
-通常一個服務根據功能項目多寡和性質，可以定義出多種不同的 SLIs 指標。[Google SRE](https://www.coursera.org/learn/site-reliability-engineering-slos/) 將 SLIs 種類分成以下三大類，我們即將會用到這個工具。
-
-1. 請求/回應 
-2. 數據處理 
-3. 資料存儲
-
-找出可供改善系統參考的 SLIs 並不容易，在這邊分享一套我自己的做法，供大家參考。
+通常一個服務根據功能項目多寡和性質，可以定義出多種不同的 SLIs 指標。找出可供改善系統參考的 SLIs 並不容易，在這邊分享一套我自己的做法，供大家參考。
 
 ### 1. 畫出數據流
 
@@ -98,3 +92,27 @@ layout: default_zh
 在開始定義服務水平指標（SLI）之前，我們先將 __咖啡搜尋服務__ 的微服務邊界劃分清楚。以下綠色區塊的部分便是 __咖啡搜尋服務__ 的守備範圍。有了明確的邊界，就可以列舉出邊界內的系統操作，並針對這些操作定義能反應使用者感受的指標，也就是 SLI。
 
 ![boundary of search service](Improve-Legacy-System-from-SRE-Perspective/boundary-search-service.png)
+
+![operations of search service](Improve-Legacy-System-from-SRE-Perspective/operations-search-service.png)
+
+為了節省篇幅，這邊簡單列出兩個 __咖啡搜尋服務__ 的基本操作情境：
+1. 查詢咖啡商品
+2. 更新咖啡商品數據
+
+接著我們要挑選適當的 SLI 分別放到這兩個操作當中。幸好，我們已經有現成的工具可以用了，[The SLI Menu](https://www.coursera.org/learn/site-reliability-engineering-slos/lecture/CST0V/the-sli-menu)。Thanks, Google.
+
+![The SLI Menu](Improve-Legacy-System-from-SRE-Perspective/sli-menu.png)
+
+[The SLI Menu](https://www.coursera.org/learn/site-reliability-engineering-slos/lecture/CST0V/the-sli-menu) 是一份 SLI 的參考清單，幾乎包含了大部分的使用情境，請大家安心使用。SLI 參考清單將系統操作情境分成三大類，每個分類底下都有幾個建議使用的 SLI 範本，細節如下：
+
+1. 請求/回應（Request/Response）
+    - 可用性指標（Availability）
+    - 回應時間指標（Latency）
+    - 回應品質指標（Quality）
+2. 數據處理（Data Processing）
+    - 處理覆蓋率指標（Coverage）
+    - 正確性指標（Correctness）
+    - 新鮮度指標（Freshness）
+    - 吞吐量指標（Throughput）
+3. 資料存儲（Storage）
+    - 持久性指標（Durability）
