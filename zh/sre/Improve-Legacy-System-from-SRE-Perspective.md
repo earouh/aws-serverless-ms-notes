@@ -103,13 +103,13 @@ layout: default_zh
 
 ![The SLI Menu](Improve-Legacy-System-from-SRE-Perspective/sli-menu.png)
 
-[The SLI Menu](https://www.coursera.org/learn/site-reliability-engineering-slos/lecture/CST0V/the-sli-menu) 是一份 SLI 的參考清單，幾乎包含了大部分的使用情境，請大家安心使用。SLI 參考清單將系統操作情境分成三大類，每個分類底下都有幾個建議使用的 SLI 範本，細節如下：
+[The SLI Menu](https://www.coursera.org/learn/site-reliability-engineering-slos/lecture/CST0V/the-sli-menu) 是一份 SLI 的參考清單，幾乎包含了大部分的使用情境，請大家安心使用。SLI 參考清單將系統操作情境分成三大類，每個分類底下都有幾個建議使用的 SLI 範本，完整清單如下：
 
-1. 請求/回應（Request/Response）
+1. [請求/回應（Request/Response）](https://www.coursera.org/learn/site-reliability-engineering-slos/lecture/h4yjq/request-response-slis)
     - 可用性指標（Availability）
     - 回應時間指標（Latency）
     - 回應品質指標（Quality）
-2. 數據處理（Data Processing）
+2. [數據處理（Data Processing）](https://www.coursera.org/learn/site-reliability-engineering-slos/lecture/TrgBJ/data-processing-slis)
     - 處理覆蓋率指標（Coverage）
     - 正確性指標（Correctness）
     - 新鮮度指標（Freshness）
@@ -117,3 +117,22 @@ layout: default_zh
 3. 資料存儲（Storage）
     - 持久性指標（Durability）
 
+在進入 SLI 細節前，我們先替 __咖啡搜尋服務__ 的兩個操作情境做 SLI 分類。這時候前面分析的數據流就派上用場了，__更新咖啡商品數據__ 做的是數據批處理，直接分類在 __2. 數據處理__ 情境。而 __查詢咖啡商品__ 則是典型的 __1. 請求/回應__ 情境（這邊可以使用刪去法來進行選擇，因為不屬於 2. 數據處理 也不屬於 3. 資料存儲）。適合 __3. 資料存儲 SLI__ 的情境目前還沒遇到過，有機會以後再另外做分享。
+
+深入 __查詢咖啡商品__ 情境對應的三個指標：
+
+* 可用性指標（Availability）
+    - 定義：正當請求被成功滿足的比率。
+    - 前提：需要先定義何謂 __成功__。
+    - 範例：Launch 一台 VM 3 分鐘後可以成功地 ssh 連線進去。
+    - 量測：
+* 回應時間指標（Latency）
+    - 定義：正當請求的回應時間低於一個閥值（Threshold）的比率。
+    - 前提：需要先定義回應時間的起算點和結束點，以及 __閥值__。
+    - 範例：批次工作佇列的清空的速度快於 10 分鐘。
+    - 量測：
+* 回應品質指標（Quality）
+    - 定義：正當請求回應非降級的結果的比率（適用於服務會提供降級結果的情境）。
+    - 前提：需要先定義 __正常的結果__ 和 __降級的結果__。
+    - 範例：當數據不足時，回應與使用者無關的廣告內容。
+    - 量測：
