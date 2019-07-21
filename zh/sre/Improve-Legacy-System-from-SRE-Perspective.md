@@ -14,13 +14,13 @@ layout: default_zh
     - [案例：轉轉咖啡屋](#案例轉轉咖啡屋)
     - [從單體到微服務](#從單體到微服務)
     - [新的挑戰：更大的規模](#新的挑戰更大的規模)
-* [1. 系統評估](#1.系統評估)
-    - 畫出數據流(#畫出數據流)
-    - 標示出現有系統的數據流，工作流
-    - 標示批處理，流處理
+* [系統評估](#系統評估)
+    - 1. 畫出數據流(#1-畫出數據流)
+    - 2. 標示批處理，流處理
     - 標示 SLI Menu，Request / Response or Data Processing or Data Store
 * 系統改善設計
     - 選擇合適的數據工作劉模式
+
 ## 學習案例介紹
 
 [從零開始學架構](https://www.tenlong.com.tw/products/9787121347917) 中提到的架構設計三原則：合適、簡單、演化。你不需要在一開始就設計一個技術領先於業界的系統，正所謂『將軍難打無兵之仗』，一開始就投入大量的人力與時間在開發一個高可用、高乘載的系統卻沒有半個使用者，是一點意義也沒有的。所以，設計不良的舊有系統（Legacy System）存在於成功的企業中是常見、正常的狀況。畢竟往往正是因為有了這些符合成本且滿足初期使用者需求的舊有系統，才成就了所謂的成功企業。
@@ -29,9 +29,13 @@ layout: default_zh
 
 轉轉咖啡屋是一個虛擬的咖啡廳開店平台，提供每一個註冊店家可以在轉轉咖啡屋上開一家屬於自己的咖啡店，並有咖啡配送員幫你將新鮮的咖啡送給消費者。一開始，轉轉咖啡屋做了一個簡單的網站，消費者端有瀏覽店家、咖啡菜單查詢、下單購買、搜尋所有店家菜單等功能。店家端有更新菜單、通知配送員等功能。這個網站使用了單體 + RDBMS 的架構做成如下圖示。過沒多久，轉轉咖啡屋使用者人數一飛沖天，店家數也即將破百。由於搜尋所有店家菜單功能依賴 SQL 查詢關聯式資料庫，效率十分低落，隨著每秒查詢量增加，不但搜尋的速度變慢，還造成 RDBMS 過載，連帶影響到其他功能。
 
+![monolith](Improve-Legacy-System-from-SRE-Perspective/monolith.png)
+
 ### 從單體到微服務
 
 轉轉咖啡屋唯一的工程師在時間壓力下，決定先將搜尋所有店家菜單功能獨立出來，做成第一個微服務，並使用 [ElasticSearch](https://www.elastic.co/products/elasticsearch) 作為搜尋引擎，改善搜尋效率，並寫了一隻同步程式，每分鐘會將更新資料從 RDB 同步到 ElasticSearch。
+
+![coffee search service](Improve-Legacy-System-from-SRE-Perspective/coffee-search-service.png)
 
 ### 新的挑戰：更大的規模
 
@@ -48,9 +52,9 @@ layout: default_zh
 
 對於轉轉咖啡屋的 SRE 團隊來說，咖啡搜尋服務這個既有系統，該如何去分析並解決這個問題呢？
 
-## 1. 系統評估
+## 系統評估
 
-好的，接下來終於可以進入我們今天的主題了。第一步是要對系統進行評估，評估的方法採用 SRE [服務水平指標](https://www.coursera.org/learn/site-reliability-engineering-slos/home/week/2)（Service Level Indicators, SLIs）的理論，藉由找出關鍵 SLIs 指標，來數據化使用者對於系統的滿意程度。根據 [The properties of good SLI metrics
+好的，接下來終於可以進入我們今天的主題了。第一步是要對系統進行評估，評估的方法採用 [SRE 服務水平指標](https://www.coursera.org/learn/site-reliability-engineering-slos/home/week/2)（Service Level Indicators, SLIs）的理論，藉由找出關鍵 SLIs 指標，來數據化使用者對於系統的滿意程度。根據 [The properties of good SLI metrics
 ](https://www.coursera.org/learn/site-reliability-engineering-slos/lecture/pgyZk/the-properties-of-good-sli-metrics) 裡面提到，一個好的 SLI 指標必須真實且直接反應出使用者感受。意即我們可以從一個數值區間為 0%~100% 的 SLI 指標中得知，目前系統某個操作的性能與狀態，是否造成使用者不好的體驗，影響程度與範圍多大。甚至我們可以從數字中換算出客服處理時間，[服務水平指標](https://www.coursera.org/learn/site-reliability-engineering-slos/home/week/2) 越差，代表公司必須付出更多的客服成本，且降低使用者對產品品質的信心。
 
 有了這些數據，我們就可以在改善項目成本與不進行改善所付出的代價之間進行取捨。
@@ -59,4 +63,4 @@ layout: default_zh
 
 找出可供改善系統參考的 SLIs 並不容易，在這邊分享一個我自己的做法，供大家參考。
 
-### 畫出數據流
+### 1. 畫出數據流
