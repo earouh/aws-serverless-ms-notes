@@ -110,7 +110,7 @@ layout: default_zh
     - 回應時間指標（Latency）
     - 回應品質指標（Quality）
 2. [數據處理（Data Processing）](https://www.coursera.org/learn/site-reliability-engineering-slos/lecture/TrgBJ/data-processing-slis)
-    - 處理覆蓋率指標（Coverage）
+    - 覆蓋率指標（Coverage）
     - 正確性指標（Correctness）
     - 新鮮度指標（Freshness）
     - 吞吐量指標（Throughput）
@@ -124,15 +124,20 @@ layout: default_zh
 * 可用性指標（Availability）
     - 定義：正當請求被成功滿足的比率。
     - 前提：需要先定義何謂 __成功__。
-    - 範例：Launch 一台 VM 3 分鐘後可以成功地 ssh 連線進去。
-    - 量測：
+    - 範例：Launch 一台 VM 後可以成功 ssh 連線進去的情況與整體的比率。
 * 回應時間指標（Latency）
     - 定義：正當請求的回應時間低於一個閥值（Threshold）的比率。
-    - 前提：需要先定義回應時間的起算點和結束點，以及 __閥值__。
-    - 範例：批次工作佇列的清空的速度快於 10 分鐘。
-    - 量測：
+    - 前提：需要先定義回應時間的 __起算點__ 和 __結束點__，以及 __閥值__。
+    - 範例：一個 HTTP Request 接收到完整回應內容所需時間少於 500ms 與整體的比率。
 * 回應品質指標（Quality）
     - 定義：正當請求回應非降級的結果的比率（適用於服務會提供降級結果的情境）。
     - 前提：需要先定義 __正常的結果__ 和 __降級的結果__。
-    - 範例：當數據不足時，回應與使用者無關的廣告內容。
-    - 量測：
+    - 範例：當數據不足時，回應與使用者無關的廣告內容結果與整體的比率。
+
+深入 __更新咖啡商品數據__ 情境對應的四個指標：
+* 覆蓋率指標（Coverage）
+* 正確性指標（Correctness）
+* 新鮮度指標（Freshness）
+* 吞吐量指標（Throughput）
+
+定義 SLI 還有許多考量點例如量測視窗大小、量測工具的選擇和 [SLI Refinement](https://www.coursera.org/learn/site-reliability-engineering-slos/lecture/teIhY/refining-sli-specifications) 不在本篇文章講解範圍內。 
