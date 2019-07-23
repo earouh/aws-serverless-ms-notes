@@ -23,6 +23,7 @@ layout: default_zh
 * [系統改善設計](#系統改善設計)
     1. [SLI 與工具選用](#1-SLI與工具選用)
     2. [範例：改善 Freshness SLI](#2-範例改善FreshnessSLI)
+    3. [驗收成果](#3-驗收成果)
 * [結語](#結語)
 
 ## 學習案例介紹
@@ -245,6 +246,47 @@ Error Budget 也可以用來評估系統維運風險，當你的 Error Budget �
 
 數據處理類型的 SLI，則可以參考 [工作流設計模式（Workflow Pattern）](https://time.geekbang.org/column/article/92928)。
 
+__工作流設計模式__ 有以下模式：
+
+* 複製模式(Copier Pattern)
+    - 將單一數據來源，完整的複製到其他多個數據處理模塊，使同樣數據可以同時被不同用途功能處理。
+    - 範例：一個 Youtube 影片上傳後，影片內容同時分給縮圖產生器、內容審核器、高解析度格式轉換、低解析度格式轉換等處理器同時處理。
+* 過濾模式(Filter Pattern)
+    - 數據集通過過濾處理模塊，只留下符合條件的數據。
+    - 範例：發送優惠通知時，只發送給 VIP 會員。從會員庫塞選出 VIP 會員清單。
+* 分離模式(Splitter Pattern)
+    - 處理數據集時不想丟器任何數據，而是將數據分類丟到不同的工作流處理。
+    - 範例：承上面的例子，想要依照不同的會員等級發送不同的優惠內容時，同時分離出 VIP 會員和普通會員到不同清單中。
+* 合併模式(Joiner Pattern)
+    - 將多個不同數據來源合併再一起，統一由一個工作流處理。
+    - 範例：使用爬蟲取得 Instgram 圖片與 Facebook 圖片，合併在一起做圖像處理。
+
+![workflow patterns](Improve-Legacy-System-from-SRE-Perspective/workflow-patterns.png)
+
 ### 2. 範例：改善 Freshness SLI
 
+我們重新來檢視一下 __更新咖啡商品數據__ 和其相關的數據流。
+
+![re-dataflow](Improve-Legacy-System-from-SRE-Perspective/re-dataflow.png)
+
+可以發現相同的數據來源，卻分成了兩條不同的工作流。有沒有可能使用 __工作流設計模式__ 的其中之一，將這兩條數據流合併呢？例如，使用 __Copier Pattern__。
+
+![copier design](Improve-Legacy-System-from-SRE-Perspective/copier-design.png)
+
+採用 Copier Pattern 後，會發現資料來源統一了，但是多了一個 Copier 節點。Copier 節點要如何去實作，也是一個值得探討的問題。Copier 節點必須具備單一輸入扇形輸出(fan out)的特性，聽起來是不是很像單一來源的 __發布/訂閱（Pub/Sub)__ 模式呢？如果要實作 Pub/Sub，那選擇就很多了，如 GCP Cloud Pub/Sub, Apache Kafka, AWS SNS + SQS, Redis 等等。
+
+想必大家在實作方面都有自己獨門的見解和建議，在這裡我就不講出來讓人見笑了。本篇文章的主軸還是在如何使用 SRE 方法引導出系統改善的方向。
+
+### 3. 驗收成果
+
+經過了上一章節的架構調整，我們可以觀察原本定義好的 Freshness SLI 數值變化來驗收成果。
+
+如果，因為架構調整而使原本的 SLI 無法收集到資料，那可能要思考看看是不是 SLI 定義或是量測方式有需要調整的部分。以 __更新咖啡商品數據__ 情境為例，中間做數據處理的程式邏輯仍然是轉換資料格式，轉換完成後寫入一樣的完成時間到一樣的 log 位置，即使接收數據的方式可能改變（SQL 結果 -> Message）。但是被量測的部分並沒有受到影響。
+
+當然 SLI 也並不是一直不變的。我們應該遵循一次只改動一個地方的原則來比較成果。修改 SLI 時不改動系統，改動系統時不修改 SLI。如此才能得到可以被比較的前後結果。
+
 ## 結語
+
+從 SRE 的觀點來操作系統改善這件事，有助於釐清改善的關鍵點。同時避免依賴經驗主義導致過度設計的陷阱。
+
+另一方面，改善的結果也可以很明確地看出成果。甚至在改善的過程中，也不斷地觀察著 SLI 變化，對於複雜系統需要一步一步改善的過程，也可以持續地得到回饋。或許，我們再也不需要摸黑前進了吧。
