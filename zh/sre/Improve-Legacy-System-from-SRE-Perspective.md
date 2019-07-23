@@ -200,24 +200,27 @@ Freshness SLI = 99% 代表什麼意思？
 
 * _查詢咖啡商品_
     - __Availability SLI__
-        - __30天 99.13%__
+        - __99.13%（30天）__
     - __Latency SLI__
-        - __30天 98.6%__
+        - __98.6%（30天）__
     - __客戶抱怨次數：0 次__
 * _更新咖啡商品數據_
     - __Freshness SLI__
-        - __30天 82%__
+        - __82%（30天）__
     - __客戶抱怨次數：5 次__
 
 第一次定義 __服務水平目標__（Service Level Objectives）時，我們可以拿過去的一個月的數據作為基準，再打一點折。
 
 **保守型 SLOs**，維持現狀就是你的目標。適合運行穩定、較少客服處理的情境。下個月只要能達到這個數字，代表一切相安無事。
-- (Coffe Search) Availability SLO = 30天 __98%__
-- (Coffe Search) Latency SLO = 30天 __96%__
+- (Coffe Search) Availability SLO
+    - __98%（30天）__
+- (Coffe Search) Latency SLO
+    - __96%（30天）__
 
 **改善型 SLOs**，提升數字是你的目標。提升數字意味著必須針對系統進行改善，為了在下個月能達成目標。視系統複雜程度而定，通常不建議在短時間內設立很大的目標，例如：__80%__ -> __95%__。這樣一來為了達成目標，在接下來的 30 天就必須投入大量的人力。如果一直無法達成目標，SLO 會形同虛設。
-- (Coffe Menu Update) Freshness SLO = 30天 __82%__ -> __90%__。
-    - 如果能達成目標，預期可以減少 (90 - 82) / (100 - 82) = 44.4% 的客服量。
+- (Coffe Menu Update) Freshness SLO
+    - __82%（30天）__ -> __90%（30天）__。
+    - 如果能達成目標，預期可以減少 (90 - 82) / (100 - 82) = __44.4%__ 的客服量。
 
 設立 SLO 的好處除了可以幫助進行改善系統的決策，也提供了下個月維運的 [錯誤預算(Error Budget)](https://www.coursera.org/learn/site-reliability-engineering-slos/lecture/ApmoO/why-an-error-budget-policy)。
 
