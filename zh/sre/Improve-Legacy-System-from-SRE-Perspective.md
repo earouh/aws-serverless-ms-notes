@@ -17,10 +17,11 @@ layout: default_zh
 * [系統評估](#系統評估)
     1. [畫出數據流](#1-畫出數據流)
     2. [標示批處理，流處理](#2-標示批處理流處理)
-    3. [定義服務水平指標](#3-定義服務水平指標)
-    4. 標示 SLI Menu，Request / Response or Data Processing or Data Store
+    3. [定義服務水平指標 SLI](#3-定義服務水平指標)
+    4. [上線觀察與校正 (與使用者體驗連動)](#4-上線觀察與校正)
+    5. [設定目標 SLO](#5-設定目標)
 * 系統改善設計
-    - 選擇合適的數據工作劉模式
+    1. 選擇合適的數據工作流模式
 
 ## 學習案例介紹
 
@@ -176,4 +177,20 @@ __更新咖啡商品數據__ 情境的數據處理僅僅是單純地將 RDB 資�
 
 ![dataupdate sli details](Improve-Legacy-System-from-SRE-Perspective/dataupdate-sli-details.png)
 
-定義 SLI 還有許多考量點例如量測視窗大小、量測工具的選擇和 [SLI Refinement](https://www.coursera.org/learn/site-reliability-engineering-slos/lecture/teIhY/refining-sli-specifications) 沒有包含在本篇文章講解範圍內，但是對於評估系統非常有幫助，[學習更多](https://www.coursera.org/learn/site-reliability-engineering-slos/home/week/3)。 
+不新鮮的判定先暫時設為 5 分鐘，待日後觀察調整。
+
+定義 SLI 還有許多考量點例如量測視窗大小、量測工具的選擇和 [SLI Refinement](https://www.coursera.org/learn/site-reliability-engineering-slos/lecture/teIhY/refining-sli-specifications) 沒有包含在本篇文章講解範圍內，但是對於評估系統非常有幫助，[學習更多](https://www.coursera.org/learn/site-reliability-engineering-slos/home/week/3)。
+
+### 4. 上線觀察與校正
+
+![sli with user](Improve-Legacy-System-from-SRE-Perspective/sli-with-user.png)
+
+有了 SLI，現在我們可以使用量化的方式觀察系統的滿意程度。但是我們還不知道 SLI 數值與實際使用者的影響程度。
+
+SLI = 99% 代表什麼意思？
+
+有沒有可能設定的資料新鮮度條件為 5 分鐘，實際上每次取樣結果都是 4 分半，計算出來的 SLI ＝ 100%。而使用者仍然不開心，這時候就要下修條件，直到 SLI 可以反應真實使用體驗為止。同理 Latency SLI 的 500ms 條件是否太長或太短，也是需要收集使用者反饋再進行調整。
+
+收集使用者反饋（Feedback）可以從客服部門的統計資料取得，或是在 client 端加上回報問題的按鈕。無論如何，提升 SLI 與使用者感受的連動性，是非常重要的。
+
+### 5. 設定目標
