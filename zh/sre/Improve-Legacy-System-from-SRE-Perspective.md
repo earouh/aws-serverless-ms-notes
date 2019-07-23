@@ -89,6 +89,10 @@ layout: default_zh
 
 ### 3. 定義服務水平指標
 
+![sli principles](Improve-Legacy-System-from-SRE-Perspective/sli-principles.png)
+
+服務水平指標（SLI）必須符合這個公式，SLI = 好的事件/整體合法事件，會是一個 0%~100% 的數值。
+
 在開始定義服務水平指標（SLI）之前，我們先將 __咖啡搜尋服務__ 的微服務邊界劃分清楚。以下綠色區塊的部分便是 __咖啡搜尋服務__ 的守備範圍。有了明確的邊界，就可以列舉出邊界內的系統操作，並針對這些操作定義能反應使用者感受的指標，也就是 SLI。
 
 ![boundary of search service](Improve-Legacy-System-from-SRE-Perspective/boundary-search-service.png)
@@ -121,16 +125,16 @@ layout: default_zh
 
 深入 __查詢咖啡商品__ 情境對應的三個指標：
 
-* 可用性指標（Availability）
-    - 定義：合法請求被成功滿足的比率。
+* _可用性指標（Availability）_
+    - 定義：合法請求被成功滿足佔整體的比率。
     - 前提：需要先定義何謂 __成功的情境__。
     - 範例：Launch 一台 VM 後可以成功 ssh 連線進去的情況與整體的比率。
-* 回應時間指標（Latency）
-    - 定義：合法請求的回應時間低於一個閥值（Threshold）的比率。
+* _回應時間指標（Latency）_
+    - 定義：合法請求的回應時間低於一個閥值（Threshold）佔整體的比率。
     - 前提：需要先定義回應時間的 __起算點__ 和 __結束點__，以及 __閥值__。
     - 範例：一個 HTTP Request 接收到完整回應內容所需時間少於 500ms 與整體的比率。
-* 回應品質指標（Quality）
-    - 定義：合法請求回應非降級的結果的比率（適用於服務會提供降級結果的情境）。
+* _回應品質指標（Quality）_
+    - 定義：合法請求回應非降級的結果佔整體的比率（適用於服務會提供降級結果的情境）。
     - 前提：需要先定義 __正常的結果__ 和 __降級的結果__。
     - 範例：當數據不足時，回應與使用者無關的廣告內容結果與整體的比率。
 
@@ -138,22 +142,38 @@ layout: default_zh
 
 __查詢咖啡商品__ 情境目前沒有回應降級結果的設計，故不考慮 __回應品質指標__。而與使用者體驗有關的狀況為 API 回應的 HTTP Code 為 200（成功） 或是 500（系統錯誤）可以納入 __可用性指標__。如果 API 回應的速度過慢也會令使用者感到不適，因此也將 API response time 納入 __回應時間指標__。完整描述參照下圖。
 
+![search sli details](Improve-Legacy-System-from-SRE-Perspective/search-sli-details.png)
+
+量測位置與方法也是非常重要的部分，當 SLI 無法反應真實情形時，必須重新考慮 SLI 量測位置。在這邊我們使用常見的 Loadbalancer 數據。
+
 深入 __更新咖啡商品數據__ 情境對應的四個指標：
-* 覆蓋率指標（Coverage）
-    - 定義：合法輸入數據被成功處理的比率。
+* _覆蓋率指標（Coverage）_
+    - 定義：合法輸入數據被成功處理佔整體的比率。
     - 前提：需要先定義哪些數據集會被 SLI 列入考慮，以及怎樣算是 __成功處理__。
     - 備註：這個指標通常用來查看輸入的數據的乾淨程度，被跳過處理的數據的百分比如何。
-* 正確性指標（Correctness）
-    - 定義：合法輸入數據產出正確結果的比率。
+* _正確性指標（Correctness）_
+    - 定義：合法輸入數據產出正確結果佔整體的比率。
     - 前提：需要先定義哪些數據集會被 SLI 列入考慮，以及產出的結果怎樣算是 __正確__。
     - 備註：比較產出是否正確的比較數據必須和數據處理的方法不一致，建議使用已知結果的數據集進行測試。
-* 新鮮度指標（Freshness）
-    - 定義：合法輸入數據在一定時間內被更新的比率。
+* _新鮮度指標（Freshness）_
+    - 定義：合法輸入數據在一定時間內完成佔整體的比率。
     - 前提：需要先定義哪些數據集會被 SLI 列入考慮，以及從哪個 __時間點__ 開始起算新鮮度。
     - 備註：有時候不一定需要將所有被處理的數據列入 SLI 考量，只計算使用者取到的不新鮮數據更可以反應真實影響。
-* 吞吐量指標（Throughput）
-    - 定義：資料處理速率大於某個值的比率。
+* _吞吐量指標（Throughput）_
+    - 定義：數據處理速率大於某個值佔整體的比率。
     - 前提：需要先定義處理速率的單位，例如，bytes/min。
     - 備註：適合被用在資料處理比較耗時且花費成本的場景。
 
-定義 SLI 還有許多考量點例如量測視窗大小、量測工具的選擇和 [SLI Refinement](https://www.coursera.org/learn/site-reliability-engineering-slos/lecture/teIhY/refining-sli-specifications) 不在本篇文章講解範圍內。 
+__更新咖啡商品數據__ 情境的數據處理僅僅是單純地將 RDB 資料轉換成 ElasticSearch Doc 形式，因此針對複雜數據處理的 __正確性指標__ 和 __吞吐量指標__ 先不考慮。__覆蓋率指標__ 或許可以反應資料轉換時格式錯誤的程度，可考慮。為了節省文章篇幅，在這裏選用與前面提到的顧客抱怨相關的 __新鮮度指標__。新鮮度指標依照 __流處理__ 或 __批處理__ 有不同的建議做法。參照如下：
+
+![freshness sli suggestion](Improve-Legacy-System-from-SRE-Perspective/freshness-sli-suggestion.png)
+
+在上一章節我們已經標示出 __更新咖啡商品數據__ 情境是 __批處理__。根據上圖的概念，可以實作如下：
+
+![freshness sli implementation](Improve-Legacy-System-from-SRE-Perspective/freshness-sli-implement.png)
+
+完整描述參照下圖。
+
+![dataupdate sli details](Improve-Legacy-System-from-SRE-Perspective/dataupdate-sli-details.png)
+
+定義 SLI 還有許多考量點例如量測視窗大小、量測工具的選擇和 [SLI Refinement](https://www.coursera.org/learn/site-reliability-engineering-slos/lecture/teIhY/refining-sli-specifications) 沒有包含在本篇文章講解範圍內，但是對於評估系統非常有幫助，[學習更多](https://www.coursera.org/learn/site-reliability-engineering-slos/home/week/3)。 
