@@ -21,7 +21,8 @@ layout: default_zh
     4. [上線觀察與校正 (與使用者體驗連動)](#4-上線觀察與校正)
     5. [設定目標 SLO](#5-設定目標)
 * [系統改善設計](#系統改善設計)
-    1. [從沒達標的 SLI 開始](#1-從沒達標的SLI開始)
+    1. [SLI 與工具選用](#1-SLI與工具選用)
+    2. [範例：改善 Freshness SLI](#2-範例改善FreshnessSLI)
 * [結語](#結語)
 
 ## 學習案例介紹
@@ -232,5 +233,18 @@ Error Budget 也可以用來評估系統維運風險，當你的 Error Budget �
 
 ## 系統改善設計
 
+服務水平目標（SLI）量化了系統當前的狀態。服務水平目標（SLO）讓我們有更明確的方法在改善與不改善之間做權衡判斷。接下來我們繼續使用 SLI 種類的特性來選用系統改善的做法。
+
+### 1. SLI 與工具選用
+
+還記得 [The SLI Menu](https://www.coursera.org/learn/site-reliability-engineering-slos/lecture/CST0V/the-sli-menu) 嗎？要改善的 SLI 都有屬於自己的類型。例如，__請求/回應__ 的 __回應時間指標__。
+
+如果想要提升的是 __回應時間指標__，可以參考 [從零開始學架構](https://www.tenlong.com.tw/products/9787121347917) 的 __高性能架構模式__。
+
+如果想要提升的是 __可用性指標__，可以參考 [從零開始學架構](https://www.tenlong.com.tw/products/9787121347917) 的 __高可用架構模式__。
+
+數據處理類型的 SLI，則可以參考 [工作流設計模式（Workflow Pattern）](https://time.geekbang.org/column/article/92928)。
+
+### 2. 範例：改善 Freshness SLI
 
 ## 結語
