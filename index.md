@@ -1,12 +1,12 @@
 ---
-title: Something About Microservices On AWS Serverless
-description: 
+title: Code something today?
+description: "Updated on March 20, 2020"
 layout: default
 ---
 
 This website collects my ideas and work experiences about using the following technologies:
 
-- Microservices
+- Microservices architecture
 - AWS Serverless
 - NodeJS (by no means the only choice)
 
