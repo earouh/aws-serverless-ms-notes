@@ -1,6 +1,6 @@
 ---
 title: Code something today?
-description: "Updated on March 20, 2020"
+description: "Updated on March 8, 2020"
 layout: default
 ---
 
