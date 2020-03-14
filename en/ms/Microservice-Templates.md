@@ -6,8 +6,7 @@ layout: default
 
 ![cover](Microservice-Templates/cover.png)
 
-A good source code template beats all training sessions.
-Especially for microservices architecture, you might have more than 10 git repos to form a complete application. And a small team owns one or more repos. Although each team can have its own style in software development, a consistent code structure and examples save a lot of time on making small decisions or reinventing the wheel. For example, test frameworks, pipeline steps and so on.
+A good source code template beats all training sessions, especially for microservices architecture. You might have more than 10 Git repos to form a complete application and several small teams own one or a few repos. In this case, each team could do many things alike. Such as test framework, pipeline steps and so on. A source code template with thoughtful structures and examples saves a lot of time on reinventing the wheels. 
 
 ## Outline
 
